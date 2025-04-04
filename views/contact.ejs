@@ -731,49 +731,7 @@
 </head>
 <body>
     <!-- Header Section -->
-    <header>
-        <nav>
-            <a href="#" class="logo">Art<span>Vista</span></a>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Artists</a></li>
-                <li><a href="#">Exhibitions</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#" class="active">Contact</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="#" class="login">Login</a>
-                <a href="#" class="signup">Sign Up</a>
-            </div>
-            <button class="mobile-menu-btn" id="mobile-menu-open">
-                <i class="fas fa-bars"></i>
-            </button>
-        </nav>
-    </header>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobile-menu">
-        <div class="mobile-menu-header">
-            <a href="#" class="logo">Art<span>Vista</span></a>
-            <button class="mobile-menu-close" id="mobile-menu-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <ul class="mobile-nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Artists</a></li>
-            <li><a href="#">Exhibitions</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#" class="active">Contact</a></li>
-        </ul>
-        <div class="mobile-auth-buttons">
-            <a href="#" class="login">Login</a>
-            <a href="#" class="signup" style="background-color: var(--secondary); color: white;">Sign Up</a>
-        </div>
-    </div>
-
+    <%- include("./navbar") %>
     <!-- Page Header -->
     <section class="page-header">
         <h1>Contact Us</h1>
@@ -983,63 +941,7 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <!-- Footer About -->
-            <div class="footer-about">
-                <a href="#" class="footer-logo">Art<span>Vista</span></a>
-                <p>ArtVista Gallery showcases contemporary art from emerging and established artists around the world, providing a platform for artistic expression and cultural exchange.</p>
-                <div class="footer-social-links">
-                    <a href="#" class="footer-social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="footer-social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="footer-social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="footer-social-link"><i class="fab fa-pinterest-p"></i></a>
-                    <a href="#" class="footer-social-link"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-
-            <!-- Quick Links -->
-            <div class="footer-links-section">
-                <h3 class="footer-heading">Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">Artists</a></li>
-                    <li><a href="#">Exhibitions</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-
-            <!-- Services -->
-            <div class="footer-links-section">
-                <h3 class="footer-heading">Services</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Art Sales</a></li>
-                    <li><a href="#">Commissions</a></li>
-                    <li><a href="#">Art Consulting</a></li>
-                    <li><a href="#">Framing</a></li>
-                    <li><a href="#">Events</a></li>
-                </ul>
-            </div>
-
-            <!-- Newsletter -->
-            <div class="newsletter">
-                <h3 class="footer-heading">Newsletter</h3>
-                <p>Subscribe to our newsletter for updates on new exhibitions, artists, and events.</p>
-                <form class="newsletter-form">
-                    <input type="email" class="newsletter-input" placeholder="Your email address">
-                    <button type="submit" class="newsletter-btn">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 ArtVista Gallery. All rights reserved.</p>
-        </div>
-    </footer>
+    <%- include("./footer") %>
 
     <!-- JavaScript -->
     <script>

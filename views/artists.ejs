@@ -803,48 +803,7 @@
 </head>
 <body>
     <!-- Header Section -->
-    <header>
-        <nav>
-            <a href="#" class="logo">Art<span>Vista</span></a>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#" class="active">Artists</a></li>
-                <li><a href="#">Exhibitions</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="#" class="login">Login</a>
-                <a href="#" class="signup">Sign Up</a>
-            </div>
-            <button class="mobile-menu-btn" id="mobile-menu-open">
-                <i class="fas fa-bars"></i>
-            </button>
-        </nav>
-    </header>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobile-menu">
-        <div class="mobile-menu-header">
-            <a href="#" class="logo">Art<span>Vista</span></a>
-            <button class="mobile-menu-close" id="mobile-menu-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <ul class="mobile-nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#" class="active">Artists</a></li>
-            <li><a href="#">Exhibitions</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-        <div class="mobile-auth-buttons">
-            <a href="#" class="login">Login</a>
-            <a href="#" class="signup" style="background-color: var(--secondary); color: white;">Sign Up</a>
-        </div>
-    </div>
+    <%- include("./navbar") %>
 
     <!-- Page Banner -->
     <section class="page-banner">
@@ -1135,53 +1094,7 @@
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-about">
-                <a href="#" class="footer-logo">Art<span>Vista</span></a>
-                <p>ArtVista Gallery is a premier platform showcasing exceptional artwork from talented artists around the world. We connect art lovers with artists through exhibitions, events, and our online gallery.</p>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            <div class="footer-links-container">
-                <h3 class="footer-heading">Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">Artists</a></li>
-                    <li><a href="#">Exhibitions</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-links-container">
-                <h3 class="footer-heading">Artist Resources</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Submit Your Work</a></li>
-                    <li><a href="#">Artist Guidelines</a></li>
-                    <li><a href="#">Commission Process</a></li>
-                    <li><a href="#">Exhibition Opportunities</a></li>
-                    <li><a href="#">Artist FAQs</a></li>
-                </ul>
-            </div>
-            <div class="newsletter">
-                <h3 class="footer-heading">Newsletter</h3>
-                <p>Subscribe to our newsletter for the latest updates and news.</p>
-                <form class="newsletter-form">
-                    <input type="email" class="newsletter-input" placeholder="Your email">
-                    <button class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
-                </form>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 ArtVista Gallery. All rights reserved. | <a href="#" style="color: rgba(255, 255, 255, 0.7);">Privacy Policy</a> | <a href="#" style="color: rgba(255, 255, 255, 0.7);">Terms of Service</a></p>
-        </div>
-    </footer>
+    <%- include("./footer") %>
 
     <!-- JavaScript -->
     <script>
