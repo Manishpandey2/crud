@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial Harmony - ArtVista Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3D405B;
+            --secondary: #E07A5F;
+            --light: #F4F1DE;
+            --accent: #81B29A;
+            --dark-accent: #F2CC8F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .auth-buttons a {
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .login {
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .signup {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .signup:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 200;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+        }
+        
+        .mobile-nav-links li {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mobile-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        
+        .mobile-nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .mobile-auth-buttons {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .mobile-auth-buttons a {
+            text-decoration: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb-item {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumb-item a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: var(--secondary);
+        }
+        
+        .breadcrumb-separator {
+            margin: 0 0.5rem;
+            color: #ccc;
+        }
+        
+        /* Single Artwork Page */
+        .artwork-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .artwork-gallery {
+            position: relative;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .artwork-thumbnails {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .thumbnail.active {
+            border-color: var(--secondary);
+        }
+        
+        .artwork-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .artwork-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .artist-info {
+            display: flex;
+            align-items: center;
+            margin-right: 2rem;
+        }
+        
+        .artist-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        
+        .artist-name {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .artwork-category {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .artwork-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .artwork-description {
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        
+        .artwork-details {
+            margin-bottom: 2rem;
+        }
+        
+        .detail-group {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .detail-label {
+            width: 150px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .detail-value {
+            color: #666;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .add-to-cart {
+            padding: 0.8rem 2rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-to-cart i {
+            margin-right: 0.5rem;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #d0694f;
+        }
+        
+        .save-to-wishlist {
+            padding: 0.8rem 2rem;
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .save-to-wishlist i {
+            margin-right: 0.5rem;
+        }
+        
+        .save-to-wishlist:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .share-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .share-label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .share-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .share-link:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Artist Section */
+        .artist-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .artist-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .artist-profile {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .artist-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .artist-bio {
+            flex: 1;
+        }
+        
+        .artist-bio h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .artist-bio p {
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .view-artist-profile {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .view-artist-profile:hover {
+            background-color: #6fa589;
+        }
+        
+        /* Related Artwork Section */
+        .related-artwork {
+            max-width: 1200px;
+            margin: 0 auto 5rem;
+        }
+        
+        .related-artwork h2 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .art-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .art-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .art-image {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .art-info {
+            padding: 1.5rem;
+        }
+        
+        .art-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .artist {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .art-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .art-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .price {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .view-btn:hover {
+            background-color: #6fa589;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 1rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--secondary);
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .newsletter p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .newsletter-form {
+            display: flex;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #d0694f;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .artwork-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .artist-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .artwork-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .share-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .action-buttons {
+                gap: 0.5rem;
+            }
+            
+            .artist-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Artists</a></li>
+                <li><a href="#">Exhibitions</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="login">Login</a>
+                <a href="#" class="signup">Sign Up</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-open">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <button class="mobile-menu-close" id="mobile-menu-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Artists</a></li>
+            <li><a href="#">Exhibitions</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-buttons">
+            <a href="#" class="login">Login</a>
+            <a href="#" class="signup" style="background-color: var(--secondary); color: white;">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <span class="breadcrumb-item"><a href="#">Home</a></span>
+            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+            <span class="breadcrumb-item"><a href="#">Gallery</a></span>
+            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+            <span class="breadcrumb-item"><a href="#">Abstract</a></span>
+            <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+            <span class="breadcrumb-item">Celestial Harmony</span>
+        </div>
+    </div>
+
+    <!-- Artwork Detail Section -->
+    <div class="artwork-container">
+        <div class="artwork-gallery">
+            <img src="/api/placeholder/600/600" alt="Celestial Harmony" class="main-image">
+            <div class="artwork-thumbnails">
+                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 1" class="thumbnail active">
+                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 2" class="thumbnail">
+                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 3" class="thumbnail">
+                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 4" class="thumbnail">
+            </div>
+        </div>
+        <div class="artwork-info">
+            <h1>Celestial Harmony</h1>
+            <div class="artwork-meta">
+                <div class="artist-info">
+                    <img src="/api/placeholder/50/50" alt="Sarah Johnson" class="artist-avatar">
+                    <span class="artist-name">By Sarah Johnson</span>
+                </div>
+                <span class="artwork-category">Abstract</span>
+            </div>
+            <div class="artwork-price">$1,250</div>
+            <div class="artwork-description">
+                <p>A vibrant abstract masterpiece exploring the relationship between color and emotion. This piece captivates viewers with its dynamic use of blues and purples that evoke a sense of cosmic movement. The composition balances chaotic energy with harmonious flow, creating a visual meditation on the nature of the universe.</p>
+                <p>Created using a combination of acrylic and oil paints on premium canvas, this work features multiple layers that reveal new details with each viewing. The artist's signature brushwork and innovative color blending techniques make this a standout piece in any contemporary art collection.</p>
+            </div>
+            <div class="artwork-details">
+                <div class="detail-group">
+                    <div class="detail-label">Medium</div>
+                    <div class="detail-value">Acrylic and Oil on Canvas</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Dimensions</div>
+                    <div class="detail-value">36" × 48" (91.4 × 121.9 cm)</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Created</div>
+                    <div class="detail-value">2024</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Style</div>
+                    <div class="detail-value">Contemporary Abstract</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Certificate</div>
+                    <div class="detail-value">Includes Certificate of Authenticity</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Framing</div>
+                    <div class="detail-value">Unframed (Framing Available)</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                <button class="save-to-wishlist"><i class="far fa-heart"></i> Save to Wishlist</button>
+            </div>
+            <div class="share-buttons">
+                <span class="share-label">Share:</span>
+                <a href="#" class="share-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="share-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="share-link"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" class="share-link"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Artist Section -->
+    <section class="artist-section">
+        <h2>About the Artist</h2>
+        <div class="artist-profile">
+            <img src="/api/placeholder/200/200" alt="Sarah Johnson" class="artist-image">
+            <div class="artist-bio">
+                <h3>Sarah Johnson</h3>
+                <p>Sarah Johnson is a contemporary abstract artist based in New York City. Her work explores the intersection of color theory, emotion, and cosmic imagery. With a background in both fine arts and astrophysics, she brings a unique perspective to her creative process, often incorporating mathematical principles into her compositions.</p>
+                <p>Since her debut exhibition in 2016, Sarah has been recognized for her innovative approach to abstract expressionism. Her pieces have been featured in galleries across North America and Europe, with several works in permanent collections at modern art museums.</p>
+                <a href="#" class="view-artist-profile">View Full Profile</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Artwork Section -->
+    <section class="related-artwork">
+        <h2>You May Also Like</h2>
+        <div class="related-grid">
+            <!-- Art Card 1 -->
+            <div class="art-card">
+                <img src="/api/placeholder/400/300" alt="Abstract Painting" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Cosmic Dreams</h3>
+                    <p class="artist">By Sarah Johnson</p>
+                    <p class="art-description">Another stunning abstract piece from the Celestial collection.</p>
+                    <div class="art-footer">
+                        <span class="price">$1,100</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Art Card 2 -->
+            <div class="art-card">
+                <img src="/api/placeholder/400/300" alt="Abstract Painting" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Azure Reflections</h3>
+                    <p class="artist">By David Lee</p>
+                    <p class="art-description">A mesmerizing exploration of blue tones and oceanic movement.</p>
+                    <div class="art-footer">
+                        <span class="price">$950</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Art Card 3 -->
+            <div class="art-card">
+                <img src="/api/placeholder/400/300" alt="Abstract Painting" class="art-image">
+                <div class="art-info">
+                    <h3 class="art-title">Chromatic Fusion</h3>
+                    <p class="artist">By Mia Zhang</p>
+                    <p class="art-description">Bold color interactions create a dynamic visual experience.</p>
+                    <div class="art-footer">
+                        <span class="price">$1,350</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <a href="#" class="footer-logo">Art<span>Vista</span></a>
+                <p>ArtVista is your gateway to discovering and collecting contemporary art from emerging and established artists worldwide.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            <div class="footer-links-container">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Artists</a></li>
+                    <li><a href="#">Exhibitions</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-container">
+                <div class="footer-links-container">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Artists</a></li>
+                        <li><a href="#">Exhibitions</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-container">
+                    <h3 class="footer-heading">Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Payment Methods</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3 class="footer-heading">Newsletter</h3>
+                    <p>Subscribe to our newsletter to receive updates on new artwork, artists, and exclusive promotions.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ArtVista Gallery. All rights reserved.</p>
+            </div>
+        </footer>
+    
+        <!-- JavaScript for Mobile Menu Toggle -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const openBtn = document.getElementById('mobile-menu-open');
+                const closeBtn = document.getElementById('mobile-menu-close');
+                
+                openBtn.addEventListener('click', () => {
+                    mobileMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                closeBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+                
+                // Thumbnail gallery functionality
+                const thumbnails = document.querySelectorAll('.thumbnail');
+                const mainImage = document.querySelector('.main-image');
+                
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.addEventListener('click', () => {
+                        // Remove active class from all thumbnails
+                        thumbnails.forEach(t => t.classList.remove('active'));
+                        
+                        // Add active class to clicked thumbnail
+                        thumbnail.classList.add('active');
+                        
+                        // Update main image source (in a real application)
+                        // mainImage.src = thumbnail.src;
+                        
+                        // For demonstration purposes only (since we're using placeholder images)
+                        console.log('Thumbnail clicked:', thumbnail.alt);
+                    });
+                });
+            });
+        </script>
+    </body>
+    </html>

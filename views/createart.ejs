@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Artwork - ArtVista Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3D405B;
+            --secondary: #E07A5F;
+            --light: #F4F1DE;
+            --accent: #81B29A;
+            --dark-accent: #F2CC8F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .auth-buttons a {
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .login {
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .signup {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .signup:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 200;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+        }
+        
+        .mobile-nav-links li {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mobile-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        
+        .mobile-nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .mobile-auth-buttons {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .mobile-auth-buttons a {
+            text-decoration: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark-accent);
+        }
+        
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* Add Artwork Form */
+        .add-artwork-section {
+            padding: 4rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .form-section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .form-required {
+            color: var(--secondary);
+            margin-left: 0.2rem;
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .form-checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        
+        .form-checkbox {
+            margin-right: 0.5rem;
+        }
+        
+        /* File Upload Styles */
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--accent);
+        }
+        
+        .file-upload-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-text h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .file-upload-text p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .upload-btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            background-color: #6fa589;
+        }
+        
+        .image-preview {
+            margin-top: 1.5rem;
+            display: none;
+        }
+        
+        .image-preview.active {
+            display: block;
+        }
+        
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .preview-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        /* Price Range Input */
+        .price-range {
+            display: flex;
+            align-items: center;
+        }
+        
+        .price-range-label {
+            margin: 0 0.5rem;
+        }
+        
+        /* Additional Form Styles */
+        .form-note {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .cancel-btn {
+            padding: 0.8rem 2rem;
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .submit-btn {
+            padding: 0.8rem 2rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 1rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--secondary);
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .newsletter p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .newsletter-form {
+            display: flex;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #d0694f;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .add-artwork-section {
+                padding: 2rem 1rem;
+            }
+            
+            .form-section-title {
+                font-size: 1.3rem;
+            }
+            
+            .form-buttons {
+                flex-direction: column;
+            }
+            
+            .submit-btn, .cancel-btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-header {
+                padding: 2rem 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-input {
+                border-radius: 4px;
+                margin-bottom: 0.5rem;
+            }
+            
+            .newsletter-btn {
+                width: 100%;
+                padding: 0.8rem;
+                border-radius: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Artists</a></li>
+                <li><a href="#">Exhibitions</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="login">Login</a>
+                <a href="#" class="signup">Sign Up</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-open">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <button class="mobile-menu-close" id="mobile-menu-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Artists</a></li>
+            <li><a href="#">Exhibitions</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-buttons">
+            <a href="#" class="login">Login</a>
+            <a href="#" class="signup" style="background-color: var(--secondary); color: white;">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Add New Artwork</h1>
+        <p>Share your creative vision with the world. Complete the form below to submit your artwork to ArtVista Gallery.</p>
+    </section>
+
+    <!-- Add Artwork Form Section -->
+    <section class="add-artwork-section">
+        <div class="form-container">
+            <form id="addArtworkForm">
+                <!-- Artwork Details Section -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Artwork Details</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="title" class="form-label">Artwork Title<span class="form-required">*</span></label>
+                            <input type="text" id="title" name="title" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category" class="form-label">Category<span class="form-required">*</span></label>
+                            <select id="category" name="category" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option value="abstract">Abstract</option>
+                                <option value="portrait">Portrait</option>
+                                <option value="landscape">Landscape</option>
+                                <option value="still-life">Still Life</option>
+                                <option value="sculpture">Sculpture</option>
+                                <option value="photography">Photography</option>
+                                <option value="digital">Digital Art</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="medium" class="form-label">Medium<span class="form-required">*</span></label>
+                            <input type="text" id="medium" name="medium" class="form-input" placeholder="E.g., Oil on Canvas, Acrylic, Digital, etc." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dimensions" class="form-label">Dimensions</label>
+                            <input type="text" id="dimensions" name="dimensions" class="form-input" placeholder="Width x Height x Depth (in inches or cm)">
+                        </div>
+                        <div class="form-group">
+                            <label for="year" class="form-label">Year Created<span class="form-required">*</span></label>
+                            <input type="number" id="year" name="year" class="form-input" min="1900" max="2025" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edition" class="form-label">Edition</label>
+                            <input type="text" id="edition" name="edition" class="form-input" placeholder="E.g., Limited Edition of 10, Unique">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="description" class="form-label">Description<span class="form-required">*</span></label>
+                            <textarea id="description" name="description" class="form-textarea" placeholder="Describe your artwork, inspiration, technique, etc." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Upload Section -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Artwork Images</h2>
+                    <div class="form-group">
+                        <label class="form-label">Upload Images<span class="form-required">*</span></label>
+                        <div class="file-upload" id="fileUpload">
+                            <div class="file-upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="file-upload-text">
+                                <h4>Drag & Drop or Click to Upload</h4>
+                                <p>Upload high-quality images of your artwork (JPEG, PNG, max 5MB)</p>
+                                <div class="upload-btn">Browse Files</div>
+                            </div>
+                            <input type="file" id="artworkImages" name="artworkImages" class="file-input" accept="image/*" multiple>
+                        </div>
+                        <p class="form-note">You can upload multiple images. The first image will be used as the main display image.</p>
+                        
+                        <div class="image-preview" id="imagePreview">
+                            <h4>Image Preview</h4>
+                            <div class="preview-container" id="previewContainer">
+                                <!-- Preview images will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing & Availability Section -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Pricing & Availability</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="price" class="form-label">Price ($)<span class="form-required">*</span></label>
+                            <input type="number" id="price" name="price" class="form-input" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="form-label">Availability Status<span class="form-required">*</span></label>
+                            <select id="status" name="status" class="form-select" required>
+                                <option value="">Select Status</option>
+                                <option value="for-sale">For Sale</option>
+                                <option value="not-for-sale">Not For Sale (Exhibition Only)</option>
+                                <option value="sold">Sold</option>
+                                <option value="reserved">Reserved</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping" class="form-label">Shipping Options</label>
+                            <div class="form-checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="shipping-local" name="shipping" value="local" class="form-checkbox">
+                                    <label for="shipping-local">Local Pickup</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="shipping-domestic" name="shipping" value="domestic" class="form-checkbox">
+                                    <label for="shipping-domestic">Domestic Shipping</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="shipping-international" name="shipping" value="international" class="form-checkbox">
+                                    <label for="shipping-international">International Shipping</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="framed" class="form-label">Framing</label>
+                            <div class="form-checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="framed" name="framed" value="true" class="form-checkbox">
+                                    <label for="framed">Artwork is framed</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information Section -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Additional Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tags" class="form-label">Tags</label>
+                            <input type="text" id="tags" name="tags" class="form-input" placeholder="Separate tags with commas (e.g., abstract, blue, nature)">
+                        </div>
+                        <div class="form-group">
+                            <label for="collection" class="form-label">Collection</label>
+                            <input type="text" id="collection" name="collection" class="form-input" placeholder="Enter collection name if applicable">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="additionalInfo" class="form-label">Additional Notes</label>
+                            <textarea id="additionalInfo" name="additionalInfo" class="form-textarea" placeholder="Any additional information about the artwork"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms & Submit Section -->
+                <div class="form-section">
+                    <div class="form-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="terms" name="terms" class="form-checkbox" required>
+                            <label for="terms">I confirm that I own the copyright to this artwork and agree to ArtVista's <a href="#" style="color: var(--accent);">Terms of Service</a><span class="form-required">*</span></label>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="submit-btn">Submit Artwork</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <a href="#" class="footer-logo">Art<span>Vista</span></a>
+                <p>ArtVista is your gateway to discovering and collecting contemporary art from emerging and established artists worldwide.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            <div class="footer-links-container">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Artists</a></li>
+                    <li><a href="#">Exhibitions</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-container">
+                <h3 class="footer-heading">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <h3 class="footer-heading">Subscribe to Our Newsletter</h3>
+                <p>Stay updated with new artworks, exhibitions, and special offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Your Email Address" required>
+                    <button type="submit" class="newsletter-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ArtVista Gallery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuOpen = document.getElementById('mobile-menu-open');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuOpen.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // File Upload Preview
+        const fileUpload = document.getElementById('fileUpload');
+        const fileInput = document.getElementById('artworkImages');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewContainer = document.getElementById('previewContainer');
+
+        fileUpload.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            
+            if (files.length > 0) {
+                imagePreview.classList.add('active');
+                
+                for (let i = 0; i < files.length; i++) {
+                    if (i >= 5) break; // Limit to 5 previews
+                    
+                    const file = files[i];
+                    
+                    if (!file.type.match('image.*')) continue;
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            const previewItem = document.createElement('div');
+                            previewItem.className = 'preview-item';
+                            
+                            previewItem.innerHTML = [
+                                '<img class="preview-img" src="', e.target.result, '" alt="', theFile.name, '"/>',
+                                '<div class="preview-remove"><i class="fas fa-times"></i></div>'
+                            ].join('');
+                            
+                            previewContainer.appendChild(previewItem);
+                            
+                            const removeBtn = previewItem.querySelector('.preview-remove');
+                            removeBtn.addEventListener('click', function() {
+                                previewItem.remove();
+                                if (previewContainer.children.length === 0) {
+                                    imagePreview.classList.remove('active');
+                                }
+                            });
+                        };
+                    })(file);
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        // Form Validation
+        const addArtworkForm = document.getElementById('addArtworkForm');
+        
+        addArtworkForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Basic form validation
+            const requiredFields = document.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('error');
+                } else {
+                    field.classList.remove('error');
+                }
+            });
+            
+            if (isValid) {
+                // Here you would typically submit the form data to your backend
+                alert('Artwork submitted successfully!');
+                addArtworkForm.reset();
+                previewContainer.innerHTML = '';
+                imagePreview.classList.remove('active');
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+    </script>
+</body>
+</html>

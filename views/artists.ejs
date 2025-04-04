@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artists - ArtVista Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3D405B;
+            --secondary: #E07A5F;
+            --light: #F4F1DE;
+            --accent: #81B29A;
+            --dark-accent: #F2CC8F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .auth-buttons a {
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .login {
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .signup {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .signup:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 200;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+        }
+        
+        .mobile-nav-links li {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mobile-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        
+        .mobile-nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .mobile-auth-buttons {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .mobile-auth-buttons a {
+            text-decoration: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* Page Banner */
+        .page-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1600/400') center/cover no-repeat;
+            padding: 5rem 1rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .page-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-banner p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Search Filter */
+        .search-filter {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .filter-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .filter-select, .filter-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .filter-button {
+            padding: 0.8rem 2rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-top: 1.5rem;
+        }
+        
+        .filter-button:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Artists Grid */
+        .artists-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem 5rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary);
+        }
+        
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .artist-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .artist-image-container {
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .artist-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .artist-card:hover .artist-image {
+            transform: scale(1.05);
+        }
+        
+        .artist-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .artist-info {
+            padding: 1.5rem;
+        }
+        
+        .artist-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .artist-specialty {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .artist-bio {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .artist-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 1rem 0;
+        }
+        
+        .stat {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .artist-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .artist-btn {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .view-profile {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .view-profile:hover {
+            background-color: #33364d;
+        }
+        
+        .view-works {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .view-works:hover {
+            background-color: #6fa589;
+        }
+        
+        /* Featured Artist Section */
+        .featured-artist {
+            background-color: var(--primary);
+            color: white;
+            padding: 5rem 1rem;
+        }
+        
+        .featured-artist-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .featured-artist-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .featured-artist-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .featured-artist-info {
+            flex: 1.5;
+            min-width: 300px;
+        }
+        
+        .featured-tag {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .featured-artist-name {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-accent);
+        }
+        
+        .featured-artist-specialty {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .featured-artist-bio {
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        
+        .featured-artist-quote {
+            padding: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        
+        .featured-artist-works {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .work-thumbnail {
+            height: 100px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .work-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .work-thumbnail:hover img {
+            transform: scale(1.1);
+        }
+        
+        .featured-artist-action {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .featured-artist-action:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Newsletter Section */
+        .artist-newsletter {
+            background-color: var(--accent);
+            padding: 5rem 1rem;
+            color: white;
+        }
+        
+        .newsletter-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .newsletter-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-description {
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        
+        .artist-newsletter-form {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-button {
+            padding: 1rem 2rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .newsletter-button:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 1rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--secondary);
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .newsletter p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .newsletter-form {
+            display: flex;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #d0694f;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+        
+        .pagination a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination a:hover, .pagination a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .featured-artist-content {
+                flex-direction: column;
+            }
+            
+            .featured-artist-image {
+                order: -1;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-banner h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .filter-container {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .featured-artist-works {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .artist-newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-input {
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            }
+            
+            .newsletter-button {
+                width: 100%;
+                border-radius: 4px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .artists-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-artist-works {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pagination a {
+                width: 35px;
+                height: 35px;
+                margin: 0 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#" class="active">Artists</a></li>
+                <li><a href="#">Exhibitions</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="login">Login</a>
+                <a href="#" class="signup">Sign Up</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-open">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <button class="mobile-menu-close" id="mobile-menu-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#" class="active">Artists</a></li>
+            <li><a href="#">Exhibitions</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-buttons">
+            <a href="#" class="login">Login</a>
+            <a href="#" class="signup" style="background-color: var(--secondary); color: white;">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <h1>Discover Our Artists</h1>
+        <p>Explore the talented community of creators who bring ArtVista Gallery to life with their unique vision and extraordinary craftsmanship.</p>
+    </section>
+
+    <!-- Search & Filter -->
+    <section class="search-filter">
+        <div class="filter-container">
+            <div class="filter-group">
+                <label class="filter-label" for="speciality">Speciality</label>
+                <select class="filter-select" id="speciality">
+                    <option value="">All Specialities</option>
+                    <option value="abstract">Abstract Art</option>
+                    <option value="portrait">Portrait Artist</option>
+                    <option value="landscape">Landscape Artist</option>
+                    <option value="digital">Digital Artist</option>
+                    <option value="sculpture">Sculptor</option>
+                    <option value="mixedmedia">Mixed Media</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" for="location">Location</label>
+                <select class="filter-select" id="location">
+                    <option value="">All Locations</option>
+                    <option value="newyork">New York</option>
+                    <option value="losangeles">Los Angeles</option>
+                    <option value="chicago">Chicago</option>
+                    <option value="london">London</option>
+                    <option value="paris">Paris</option>
+                    <option value="tokyo">Tokyo</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label" for="artistName">Artist Name</label>
+                <input type="text" class="filter-input" id="artistName" placeholder="Search by name">
+            </div>
+            <button class="filter-button">Apply Filters</button>
+        </div>
+    </section>
+
+    <!-- Featured Artist -->
+    <section class="featured-artist">
+        <div class="featured-artist-content">
+            <div class="featured-artist-info">
+                <span class="featured-tag">Featured Artist of the Month</span>
+                <h2 class="featured-artist-name">Elena Rodriguez</h2>
+                <h3 class="featured-artist-specialty">Contemporary Portrait Artist</h3>
+                <p class="featured-artist-bio">Elena Rodriguez is renowned for her captivating portraits that blend traditional techniques with contemporary themes. With over 15 years of experience, her work has been exhibited in galleries across Europe and North America.</p>
+                <p class="featured-artist-bio">Her distinctive style features bold brushstrokes and an innovative use of color that brings her subjects to life with extraordinary emotional depth.</p>
+                <blockquote class="featured-artist-quote">
+                    "I strive to capture not just the physical likeness, but the essence and soul of my subjects. Each portrait tells a story that goes beyond what's visible on the surface."
+                </blockquote>
+                <h4 style="margin-bottom: 1rem; color: var(--dark-accent);">Featured Works</h4>
+                <div class="featured-artist-works">
+                    <a href="#" class="work-thumbnail">
+                        <img src="/api/placeholder/400/300" alt="Artwork by Elena Rodriguez">
+                    </a>
+                    <a href="#" class="work-thumbnail">
+                        <img src="/api/placeholder/400/300" alt="Artwork by Elena Rodriguez">
+                    </a>
+                    <a href="#" class="work-thumbnail">
+                        <img src="/api/placeholder/400/300" alt="Artwork by Elena Rodriguez">
+                    </a>
+                    <a href="#" class="work-thumbnail">
+                        <img src="/api/placeholder/400/300" alt="Artwork by Elena Rodriguez">
+                    </a>
+                </div>
+                <a href="#" class="featured-artist-action">View Full Portfolio</a>
+            </div>
+            <div class="featured-artist-image">
+                <img src="/api/placeholder/600/800" alt="Elena Rodriguez">
+            </div>
+        </div>
+    </section>
+
+    <!-- Artists Grid -->
+    <section class="artists-section">
+        <h2 class="section-title">Our Artists</h2>
+        <div class="artists-grid">
+            <!-- Artist 1 -->
+            <div class="artist-card">
+                <div class="artist-image-container">
+                    <img src="/api/placeholder/400/500" alt="Sarah Johnson" class="artist-image">
+                    <span class="artist-badge">Top Rated</span>
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Sarah Johnson</h3>
+                    <p class="artist-specialty">Abstract Artist</p>
+                    <p class="artist-bio">Sarah creates vibrant abstract pieces that explore the relationship between color and emotion, drawing inspiration from nature and urban landscapes.</p>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">38</div>
+                            <div class="stat-label">Artworks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Exhibitions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div class="artist-actions">
+                        <a href="#" class="artist-btn view-profile">View Profile</a>
+                        <a href="#" class="artist-btn view-works">View Works</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist 2 -->
+            <div class="artist-card">
+                <div class="artist-image-container">
+                    <img src="/api/placeholder/400/500" alt="Michael Chen" class="artist-image">
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Michael Chen</h3>
+                    <p class="artist-specialty">Landscape Artist</p>
+                    <p class="artist-bio">Michael specializes in breathtaking landscape paintings that capture the serenity and beauty of natural scenes, with a particular focus on light and atmosphere.</p>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">42</div>
+                            <div class="stat-label">Artworks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">9</div>
+                            <div class="stat-label">Exhibitions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">
+                                <div class="stat-value">4.7</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div class="artist-actions">
+                        <a href="#" class="artist-btn view-profile">View Profile</a>
+                        <a href="#" class="artist-btn view-works">View Works</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist 3 -->
+            <div class="artist-card">
+                <div class="artist-image-container">
+                    <img src="/api/placeholder/400/500" alt="David Williams" class="artist-image">
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">David Williams</h3>
+                    <p class="artist-specialty">Sculptor</p>
+                    <p class="artist-bio">David creates powerful sculptures that explore human emotion and connection, using a variety of materials from traditional bronze to found objects.</p>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">25</div>
+                            <div class="stat-label">Artworks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">7</div>
+                            <div class="stat-label">Exhibitions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div class="artist-actions">
+                        <a href="#" class="artist-btn view-profile">View Profile</a>
+                        <a href="#" class="artist-btn view-works">View Works</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist 4 -->
+            <div class="artist-card">
+                <div class="artist-image-container">
+                    <img src="/api/placeholder/400/500" alt="Olivia Parker" class="artist-image">
+                    <span class="artist-badge">New Artist</span>
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Olivia Parker</h3>
+                    <p class="artist-specialty">Digital Artist</p>
+                    <p class="artist-bio">Olivia pushes the boundaries of digital art, creating immersive and interactive pieces that blend technology with traditional artistic sensibilities.</p>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">16</div>
+                            <div class="stat-label">Artworks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Exhibitions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.6</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div class="artist-actions">
+                        <a href="#" class="artist-btn view-profile">View Profile</a>
+                        <a href="#" class="artist-btn view-works">View Works</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist 5 -->
+            <div class="artist-card">
+                <div class="artist-image-container">
+                    <img src="/api/placeholder/400/500" alt="James Anderson" class="artist-image">
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">James Anderson</h3>
+                    <p class="artist-specialty">Portrait Artist</p>
+                    <p class="artist-bio">James has a remarkable ability to capture the personality and character of his subjects through his detailed and expressive portrait work.</p>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">31</div>
+                            <div class="stat-label">Artworks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Exhibitions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div class="artist-actions">
+                        <a href="#" class="artist-btn view-profile">View Profile</a>
+                        <a href="#" class="artist-btn view-works">View Works</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Artist 6 -->
+            <div class="artist-card">
+                <div class="artist-image-container">
+                    <img src="/api/placeholder/400/500" alt="Lucia Morales" class="artist-image">
+                    <span class="artist-badge">Featured</span>
+                </div>
+                <div class="artist-info">
+                    <h3 class="artist-name">Lucia Morales</h3>
+                    <p class="artist-specialty">Mixed Media Artist</p>
+                    <p class="artist-bio">Lucia combines various materials and techniques to create rich, textured works that explore themes of identity, memory, and cultural heritage.</p>
+                    <div class="artist-stats">
+                        <div class="stat">
+                            <div class="stat-value">27</div>
+                            <div class="stat-label">Artworks</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">Exhibitions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                    </div>
+                    <div class="artist-actions">
+                        <a href="#" class="artist-btn view-profile">View Profile</a>
+                        <a href="#" class="artist-btn view-works">View Works</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="#" class="active">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#"><i class="fas fa-angle-right"></i></a>
+        </div>
+    </section>
+    
+    <!-- Artist Newsletter -->
+    <section class="artist-newsletter">
+        <div class="newsletter-container">
+            <h2 class="newsletter-title">Stay Updated with Our Artists</h2>
+            <p class="newsletter-description">Subscribe to our newsletter to receive updates about new artists, upcoming exhibitions, and exclusive invitations to gallery events.</p>
+            <form class="artist-newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Your email address">
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <a href="#" class="footer-logo">Art<span>Vista</span></a>
+                <p>ArtVista Gallery is a premier platform showcasing exceptional artwork from talented artists around the world. We connect art lovers with artists through exhibitions, events, and our online gallery.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links-container">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Artists</a></li>
+                    <li><a href="#">Exhibitions</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-container">
+                <h3 class="footer-heading">Artist Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Submit Your Work</a></li>
+                    <li><a href="#">Artist Guidelines</a></li>
+                    <li><a href="#">Commission Process</a></li>
+                    <li><a href="#">Exhibition Opportunities</a></li>
+                    <li><a href="#">Artist FAQs</a></li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <h3 class="footer-heading">Newsletter</h3>
+                <p>Subscribe to our newsletter for the latest updates and news.</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Your email">
+                    <button class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ArtVista Gallery. All rights reserved. | <a href="#" style="color: rgba(255, 255, 255, 0.7);">Privacy Policy</a> | <a href="#" style="color: rgba(255, 255, 255, 0.7);">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu functionality
+            const mobileMenuOpen = document.getElementById('mobile-menu-open');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuOpen.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            mobileMenuClose.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Filter functionality (placeholder)
+            const filterButton = document.querySelector('.filter-button');
+            
+            filterButton.addEventListener('click', function() {
+                // In a real application, this would filter the artists based on the selected criteria
+                alert('Filtering functionality would be implemented here with backend integration');
+            });
+        });
+    </script>
+</body>
+</html>

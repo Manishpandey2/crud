@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - ArtVista</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3D405B;
+            --secondary: #E07A5F;
+            --light: #F4F1DE;
+            --accent: #81B29A;
+            --dark-accent: #F2CC8F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .nav-links a.active {
+            color: var(--dark-accent);
+            position: relative;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--dark-accent);
+        }
+        
+        .auth-buttons a {
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .login {
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .signup {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .signup:hover {
+            background-color: #d0694f;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 200;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+        }
+        
+        .mobile-nav-links li {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mobile-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        
+        .mobile-nav-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .mobile-auth-buttons {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .mobile-auth-buttons a {
+            text-decoration: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding: 3rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-accent);
+        }
+        
+        .page-header p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        /* Filter Bar */
+        .filter-bar {
+            background-color: white;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 69px;
+            z-index: 90;
+        }
+        
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            border-color: var(--primary);
+        }
+        
+        .category-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .filter-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .sort-by {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .view-btn {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn:hover {
+            border-color: var(--primary);
+        }
+        
+        .view-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            padding: 2rem 1rem 5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-title {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .gallery-container.list-view {
+            grid-template-columns: 1fr;
+        }
+        
+        .art-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .art-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .list-view .art-card {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+        }
+        
+        .art-image {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .list-view .art-image {
+            height: 100%;
+        }
+        
+        .art-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .art-category {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .art-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .artist {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .art-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .art-meta {
+            margin-top: auto;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .art-meta-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .art-meta-item i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .art-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .price {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .view-btn:hover {
+            background-color: #6fa589;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+        
+        .pagination-list {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+        
+        .pagination-item a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #ddd;
+        }
+        
+        .pagination-item a:hover {
+            border-color: var(--primary);
+        }
+        
+        .pagination-item.active a {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 1rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--secondary);
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--dark-accent);
+        }
+        
+        .newsletter p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .newsletter-form {
+            display: flex;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .newsletter-btn:hover {
+            background-color: #d0694f;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .list-view .art-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .list-view .art-image {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .filter-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .filter-right {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .category-filter {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                width: 100%;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .category-btn {
+                flex-shrink: 0;
+            }
+            
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-title {
+                font-size: 1.5rem;
+            }
+            
+            .pagination-list {
+                gap: 0.2rem;
+            }
+            
+            .pagination-item a {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#" class="active">Gallery</a></li>
+                <li><a href="#">Artists</a></li>
+                <li><a href="#">Exhibitions</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="login">Login</a>
+                <a href="#" class="signup">Sign Up</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-open">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <button class="mobile-menu-close" id="mobile-menu-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#" class="active">Gallery</a></li>
+            <li><a href="#">Artists</a></li>
+            <li><a href="#">Exhibitions</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="mobile-auth-buttons">
+            <a href="#" class="login">Login</a>
+            <a href="#" class="signup" style="background-color: var(--secondary); color: white;">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Page Header Section -->
+    <section class="page-header">
+        <h1>Art Gallery</h1>
+        <p>Explore our diverse collection of contemporary artworks from talented artists around the world.</p>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-container">
+            <div class="filter-left">
+                <div class="category-filter">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="abstract">Abstract</button>
+                    <button class="category-btn" data-category="portrait">Portraits</button>
+                    <button class="category-btn" data-category="landscape">Landscapes</button>
+                    <button class="category-btn" data-category="sculpture">Sculpture</button>
+                    <button class="category-btn" data-category="photography">Photography</button>
+                </div>
+            </div>
+            <div class="filter-right">
+                <select class="sort-by" id="sort-by">
+                    <option value="newest">Newest</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="popularity">Popularity</option>
+                </select>
+                <div class="view-toggle">
+                    <button class="view-btn active" id="grid-view">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-btn" id="list-view">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <h2 class="gallery-title">All Artworks</h2>
+        <div class="gallery-container" id="gallery-container">
+            <!-- Abstract Art 1 -->
+            <div class="art-card" data-category="abstract">
+                <img src="/api/placeholder/400/300" alt="Abstract Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Abstract</span>
+                    <h3 class="art-title">Cosmic Resonance</h3>
+                    <p class="artist">By Sarah Johnson</p>
+                    <p class="art-description">A vibrant exploration of cosmic energies through bold colors and dynamic forms, creating a sense of infinite movement.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 36" x 48"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Acrylic on Canvas</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$2,850</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Portrait Art 1 -->
+            <div class="art-card" data-category="portrait">
+                <img src="/api/placeholder/400/300" alt="Portrait Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Portrait</span>
+                    <h3 class="art-title">Silent Contemplation</h3>
+                    <p class="artist">By Elena Rodriguez</p>
+                    <p class="art-description">A powerful portrait capturing the depth of human emotion through expressive eyes and subtle facial nuances.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 24" x 30"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Canvas</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$1,750</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Landscape Art 1 -->
+            <div class="art-card" data-category="landscape">
+                <img src="/api/placeholder/400/300" alt="Landscape Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Landscape</span>
+                    <h3 class="art-title">Autumn Whispers</h3>
+                    <p class="artist">By Michael Chen</p>
+                    <p class="art-description">A serene landscape capturing the golden hues of fall in the countryside, with gentle hills and calm waters.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 30" x 40"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Canvas</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$1,950</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sculpture Art 1 -->
+            <div class="art-card" data-category="sculpture">
+                <img src="/api/placeholder/400/300" alt="Sculpture Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Sculpture</span>
+                    <h3 class="art-title">Ethereal Balance</h3>
+                    <p class="artist">By David Wilson</p>
+                    <p class="art-description">A bronze sculpture exploring the delicate balance between strength and vulnerability through flowing forms.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 18" x 12" x 8"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Bronze</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$3,200</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Photography Art 1 -->
+            <div class="art-card" data-category="photography">
+                <img src="/api/placeholder/400/300" alt="Photography Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Photography</span>
+                    <h3 class="art-title">Urban Reflections</h3>
+                    <p class="artist">By Sophia Chang</p>
+                    <p class="art-description">A striking black and white photograph capturing the symmetry and chaos of urban architecture through reflections.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 24" x 36"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Archival Print</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$950</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Abstract Art 2 -->
+            <div class="art-card" data-category="abstract">
+                <img src="/api/placeholder/400/300" alt="Abstract Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Abstract</span>
+                    <h3 class="art-title">Harmonic Discord</h3>
+                    <p class="artist">By James Moretti</p>
+                    <p class="art-description">An exploration of contrasting elements finding harmony through bold brushstrokes and a vibrant color palette.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 40" x 50"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Mixed Media</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$2,450</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Portrait Art 2 -->
+            <div class="art-card" data-category="portrait">
+                <img src="/api/placeholder/400/300" alt="Portrait Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Portrait</span>
+                    <h3 class="art-title">Timeless Wisdom</h3>
+                    <p class="artist">By Alex Torres</p>
+                    <p class="art-description">A compelling portrait of an elderly person, each wrinkle telling stories of a life fully lived, rendered in detailed brushwork.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 20" x 24"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Panel</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$1,850</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Landscape Art 2 -->
+            <div class="art-card" data-category="landscape">
+                <img src="/api/placeholder/400/300" alt="Landscape Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Landscape</span>
+                    <h3 class="art-title">Mountain Majesty</h3>
+                    <p class="artist">By Laura Kim</p>
+                    <p class="art-description">A breathtaking mountain landscape at dawn, with layers of mist creating an ethereal atmosphere between the peaks.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item">
+                            <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 36" x 48"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Canvas</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$2,150</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sculpture Art 2 -->
+            <div class="art-card" data-category="sculpture">
+                <img src="/api/placeholder/400/300" alt="Sculpture Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Sculpture</span>
+                    <h3 class="art-title">Fluid Motion</h3>
+                    <p class="artist">By Thomas Wright</p>
+                    <p class="art-description">A marble sculpture that captures the essence of flowing water, frozen in a moment of perpetual movement.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 22" x 14" x 10"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Marble</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$4,500</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Photography Art 2 -->
+            <div class="art-card" data-category="photography">
+                <img src="/api/placeholder/400/300" alt="Photography Art" class="art-image">
+                <div class="art-info">
+                    <span class="art-category">Photography</span>
+                    <h3 class="art-title">Solitude in Nature</h3>
+                    <p class="artist">By Nina Patel</p>
+                    <p class="art-description">A serene nature photograph capturing a solitary tree in a vast landscape, symbolizing resilience and quiet strength.</p>
+                    <div class="art-meta">
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 30" x 40"</span>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i> Archival Print</span>
+                    </div>
+                    <div class="art-footer">
+                        <span class="price">$850</span>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+            <ul class="pagination-list">
+                <li class="pagination-item"><a href="#"><i class="fas fa-chevron-left"></i></a></li>
+                <li class="pagination-item active"><a href="#">1</a></li>
+                <li class="pagination-item"><a href="#">2</a></li>
+                <li class="pagination-item"><a href="#">3</a></li>
+                <li class="pagination-item"><a href="#">4</a></li>
+                <li class="pagination-item"><a href="#">5</a></li>
+                <li class="pagination-item"><a href="#"><i class="fas fa-chevron-right"></i></a></li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <a href="#" class="footer-logo">Art<span>Vista</span></a>
+                <p>ArtVista is a premier online gallery showcasing exceptional contemporary art from talented artists worldwide. We connect art lovers with unique pieces that inspire and transform spaces.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            <div class="footer-links-section">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Artists</a></li>
+                    <li><a href="#">Exhibitions</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-section">
+                <h3 class="footer-heading">Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <h3 class="footer-heading">Newsletter</h3>
+                <p>Subscribe to our newsletter to receive updates on new artworks, exhibitions, and special offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ArtVista. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuOpen = document.getElementById('mobile-menu-open');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuOpen.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+        
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+        
+        // Category Filter
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const artCards = document.querySelectorAll('.art-card');
+        const galleryTitle = document.querySelector('.gallery-title');
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const category = button.getAttribute('data-category');
+                
+                // Update gallery title
+                galleryTitle.textContent = category === 'all' ? 'All Artworks' : `${category.charAt(0).toUpperCase() + category.slice(1)} Artworks`;
+                
+                // Filter art cards
+                artCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // View Toggle
+        const gridViewBtn = document.getElementById('grid-view');
+        const listViewBtn = document.getElementById('list-view');
+        const galleryContainer = document.getElementById('gallery-container');
+        
+        gridViewBtn.addEventListener('click', () => {
+            gridViewBtn.classList.add('active');
+            listViewBtn.classList.remove('active');
+            galleryContainer.classList.remove('list-view');
+        });
+        
+        listViewBtn.addEventListener('click', () => {
+            listViewBtn.classList.add('active');
+            gridViewBtn.classList.remove('active');
+            galleryContainer.classList.add('list-view');
+        });
+        
+        // Sort Functionality
+        const sortSelect = document.getElementById('sort-by');
+        
+        sortSelect.addEventListener('change', () => {
+            const sortValue = sortSelect.value;
+            let sortedCards = Array.from(artCards);
+            
+            switch (sortValue) {
+                case 'price-low':
+                    sortedCards.sort((a, b) => {
+                        const priceA = parseFloat(a.querySelector('.price').textContent.replace('$', '').replace(',', ''));
+                        const priceB = parseFloat(b.querySelector('.price').textContent.replace('$', '').replace(',', ''));
+                        return priceA - priceB;
+                    });
+                    break;
+                case 'price-high':
+                    sortedCards.sort((a, b) => {
+                        const priceA = parseFloat(a.querySelector('.price').textContent.replace('$', '').replace(',', ''));
+                        const priceB = parseFloat(b.querySelector('.price').textContent.replace('$', '').replace(',', ''));
+                        return priceB - priceA;
+                    });
+                    break;
+                case 'popularity':
+                    // This would require actual popularity data, for now it's just a sample
+                    // You could add a data-popularity attribute to each card for real implementation
+                    break;
+                default: // newest
+                    // This would require actual date data, for now let's keep original order
+                    break;
+            }
+            
+            // Clear the container
+            galleryContainer.innerHTML = '';
+            
+            // Append sorted cards
+            sortedCards.forEach(card => {
+                galleryContainer.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>

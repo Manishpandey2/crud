@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtVista Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3D405B;
+            --secondary: #E07A5F;
+            --light: #F4F1DE;
+            --accent: #81B29A;
+            --dark-accent: #F2CC8F;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --info: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--primary);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-accent);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none;
+        }
+        
+        .admin-info {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.8rem;
+        }
+        
+        .admin-details h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .admin-details p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--dark-accent);
+        }
+        
+        .nav-link i {
+            margin-right: 0.8rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-section {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-left: 0.8rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        /* Header */
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-form {
+            position: relative;
+            margin-right: 1rem;
+        }
+        
+        .search-input {
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            width: 220px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .notification-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--primary);
+            position: relative;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--secondary);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .user-btn {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 0.5rem;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+        
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: white;
+        }
+        
+        .icon-artwork {
+            background-color: var(--secondary);
+        }
+        
+        .icon-users {
+            background-color: var(--accent);
+        }
+        
+        .icon-sales {
+            background-color: var(--dark-accent);
+        }
+        
+        .icon-revenue {
+            background-color: var(--info);
+        }
+        
+        .stat-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Chart Row */
+        .chart-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .chart-actions select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        
+        /* Sample Chart */
+        .sample-chart {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-top: 20px;
+            position: relative;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            margin: 0 5px;
+            background-color: var(--secondary);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            max-width: 40px;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .chart-line {
+            width: 100%;
+            height: 2px;
+            background-color: #eee;
+            position: absolute;
+            bottom: 30px;
+            z-index: 0;
+        }
+        
+        /* Pie chart */
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--secondary) 0% 30%,
+                var(--accent) 30% 55%,
+                var(--dark-accent) 55% 75%,
+                var(--info) 75% 100%
+            );
+            margin: 1rem auto;
+            position: relative;
+        }
+        
+        .pie-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .pie-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 0.5rem;
+        }
+        
+        .color-1 { background-color: var(--secondary); }
+        .color-2 { background-color: var(--accent); }
+        .color-3 { background-color: var(--dark-accent); }
+        .color-4 { background-color: var(--info); }
+        
+        /* Recent Items */
+        .recent-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .view-all {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .artwork-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .artwork-table th {
+            text-align: left;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+            color: #777;
+            font-weight: 500;
+        }
+        
+        .artwork-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .artwork-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .artwork-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+        
+        .artwork-name {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+        
+        .artwork-artist {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .status-badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+        
+        .status-pending {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-sold {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--info);
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .edit-btn {
+            color: var(--info);
+        }
+        
+        .edit-btn:hover {
+            color: #2980b9;
+        }
+        
+        .delete-btn {
+            color: var(--danger);
+        }
+        
+        .delete-btn:hover {
+            color: #c0392b;
+        }
+        
+        /* Activity List */
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            padding-left: 2rem;
+            position: relative;
+            padding-bottom: 1.5rem;
+            border-left: 2px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            padding-bottom: 0;
+        }
+        
+        .activity-icon {
+            position: absolute;
+            left: -15px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .icon-upload { background-color: var(--secondary); }
+        .icon-edit { background-color: var(--info); }
+        .icon-delete { background-color: var(--danger); }
+        .icon-sale { background-color: var(--success); }
+        
+        .activity-content {
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity-content p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        
+        .activity-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .activity-time {
+            display: flex;
+            align-items: center;
+        }
+        
+        .activity-time i {
+            margin-right: 0.3rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .chart-row, .recent-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 100;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+            
+            .mobile-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1.5rem;
+            }
+            
+            .mobile-toggle {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--primary);
+                cursor: pointer;
+                margin-right: 1rem;
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-form {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .artwork-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="#" class="logo">Art<span>Vista</span></a>
+            <button class="toggle-sidebar" id="close-sidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="admin-info">
+            <div class="admin-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="admin-details">
+                <h4>Admin User</h4>
+                <p>Gallery Admin</p>
+            </div>
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-palette"></i>
+                    <span>Artworks</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Artists</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-tags"></i>
+                    <span>Categories</span>
+                </a>
+            </li>
+            
+            <li class="nav-section">Content Management</li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-image"></i>
+                    <span>Gallery</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Exhibitions</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Blog</span>
+                </a>
+            </li>
+            
+            <li class="nav-section">Configuration</li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-user-cog"></i>
+                    <span>Admin Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <div class="mobile-header">
+            <button class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <div class="content-header">
+            <h1 class="page-title">Dashboard</h1>
+            <div class="header-actions">
+                <form class="search-form">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search...">
+                </form>
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </button>
+                <div class="user-menu">
+                    <button class="user-btn">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="user-name">Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-artwork">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>385</h3>
+                    <p>Total Artworks</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-users">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>2,841</h3>
+                    <p>Registered Users</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-sales">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>146</h3>
+                    <p>Sales This Month</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-revenue">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>$158,932</h3>
+                    <p>Monthly Revenue</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chart Row -->
+        <div class="chart-row">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Sales Analytics</h3>
+                    <div class="chart-actions">
+                        <select>
+                            <option>Last 30 Days</option>
+                            <option>Last 3 Months</option>
+                            <option>Last 6 Months</option>
+                            <option>Last Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="sample-chart">
+                        <div class="chart-bar" style="height: 60%;">
+                            <span class="bar-label">Jan</span>
+                        </div>
+                        <div class="chart-bar" style="height: 75%;">
+                            <span class="bar-label">Feb</span>
+                        </div>
+                        <div class="chart-bar" style="height: 65%;">
+                            <span class="bar-label">Mar</span>
+                        </div>
+                        <div class="chart-bar" style="height: 80%;">
+                            <span class="bar-label">Apr</span>
+                        </div>
+                        <div class="chart-bar" style="height: 85%;">
+                            <span class="bar-label">May</span>
+                        </div>
+                        <div class="chart-bar" style="height: 70%;">
+                            <span class="bar-label">Jun</span>
+                        </div>
+                        <div class="chart-bar" style="height: 90%;">
+                            <span class="bar-label">Jul</span>
+                        </div>
+                        <div class="chart-line"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Artwork Categories</h3>
+                </div>
+                <div class="pie-chart">
+                    <div class="pie-center">Total: 385</div>
+                </div>
+                <div class="pie-legend">
+                    <div class="legend-item">
+                        <div class="legend-color color-1"></div>
+                        <span>Abstract (30%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color color-2"></div>
+                        <span>Portrait (25%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color color-3"></div>
+                        <span>Landscape (20%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color color-4"></div>
+                        <span>Other (25%)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Items -->
+        <div class="recent-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Artworks</h3>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="card-body">
+                    <table class="artwork-table">
+                        <thead>
+                            <tr>
+                                <th>Artwork</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="artwork-info">
+                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
+                                        <div>
+                                            <div class="artwork-name">Celestial Harmony</div>
+                                            <div class="artwork-artist">by Sarah Johnson</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$1,250</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="artwork-info">
+                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
+                                        <div>
+                                            <div class="artwork-name">Autumn Whispers</div>
+                                            <div class="artwork-artist">by Michael Chen</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$890</td>
+                                <td><span class="status-badge status-sold">Sold</span></td>
+                                <td>
+                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="artwork-info">
+                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
+                                        <div>
+                                            <div class="artwork-name">Urban Dreams</div>
+                                            <div class="artwork-artist">by Elena Rodriguez</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$1,450</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="artwork-info">
+                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
+                                        <div>
+                                            <div class="artwork-name">Midnight Serenade</div>
+                                            <div class="artwork-artist">by David Parker</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>$2,100</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="card-body">
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <div class="activity-icon icon-upload">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Sarah Johnson</strong> uploaded a new artwork <strong>Celestial Harmony</strong></p>
+                                <div class="activity-meta">
+                                    <div class="activity-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>2 hours ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon icon-sale">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Autumn Whispers</strong> by Michael Chen was sold for <strong>$890</strong></p>
+                                <div class="activity-meta">
+                                    <div class="activity-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>5 hours ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon icon-edit">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Admin</strong> updated category <strong>Abstract Art</strong></p>
+                                <div class="activity-meta">
+                                    <div class="activity-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Yesterday</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon icon-delete">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Admin</strong> removed artwork <strong>Ocean Views</strong></p>
+                                <div class="activity-meta">
+                                    <div class="activity-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('mobile-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('active');
+        });
+        
+        document.getElementById('close-sidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('active');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileToggle = document.getElementById('mobile-toggle');
+            
+            if (window.innerWidth <= 992) {
+                if (!sidebar.contains(event.target) && !mobileToggle.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
