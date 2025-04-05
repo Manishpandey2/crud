@@ -4,6 +4,10 @@ const art = db.art;
 const app = express();
 require("./model/index.js");
 
+const { multer, storage } = require("./middleware/multerConfig.js");
+
+const upload = multer({ storage: storage });
+
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,8 +25,9 @@ app.get("/artists", (req, res) => {
 app.get("/createart", (req, res) => {
   res.render("createart");
 });
-app.post("/createart", async (req, res) => {
+app.post("/createart", upload.single("artworkImages"), async (req, res) => {
   console.log(req.body);
+  console.log(req.file);
   res.redirect("/gallery");
 
   const {
@@ -48,6 +53,7 @@ app.post("/createart", async (req, res) => {
     price,
     category,
     status,
+    image: req.file.filename,
   });
 });
 

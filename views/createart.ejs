@@ -666,7 +666,7 @@
     <!-- Add Artwork Form Section -->
     <section class="add-artwork-section">
         <div class="form-container">
-            <form id="addArtworkForm" action="/createart" method="POST">
+            <form id="addArtworkForm" action="/createart" method="POST" enctype="multipart/form-data">
                 <!-- Artwork Details Section -->
                 <div class="form-section">
                     <h2 class="form-section-title">Artwork Details</h2>
@@ -716,7 +716,7 @@
                 <div class="form-section">
                     <h2 class="form-section-title">Artwork Images</h2>
                     <div class="form-group">
-                        <label class="form-label">Upload Images<span class="form-required">*</span></label>
+                        <label class="form-label" for="artworkImages">Upload Images<span class="form-required">*</span></label>
                         <div class="file-upload" id="fileUpload">
                             <div class="file-upload-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
@@ -840,7 +840,63 @@
             document.body.style.overflow = '';
         });
 
-        // File Upload Preview
+        // File Upload 
+  const fileUploadBox = document.getElementById("fileUpload");
+  const fileInput = document.getElementById("artworkImages");
+  const uploadBtn = fileUploadBox.querySelector(".upload-btn");
+  const previewContainer = document.getElementById("previewContainer");
+
+  // Trigger file input when clicking anywhere inside upload box
+  fileUploadBox.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  // Prevent file input click from bubbling up again
+  uploadBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    fileInput.click();
+  });
+
+  // Handle drag over styling
+  fileUploadBox.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    fileUploadBox.classList.add("dragover");
+  });
+
+  fileUploadBox.addEventListener("dragleave", () => {
+    fileUploadBox.classList.remove("dragover");
+  });
+
+  fileUploadBox.addEventListener("drop", (e) => {
+    e.preventDefault();
+    fileUploadBox.classList.remove("dragover");
+    const files = e.dataTransfer.files;
+    fileInput.files = files; // Assign dropped files to input
+    showImagePreviews(files);
+  });
+
+  // Show image previews on file selection
+  fileInput.addEventListener("change", () => {
+    showImagePreviews(fileInput.files);
+  });
+
+  function showImagePreviews(files) {
+    previewContainer.innerHTML = ""; // Clear previous previews
+
+    Array.from(files).forEach(file => {
+      if (!file.type.startsWith("image/")) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.alt = file.name;
+        img.classList.add("preview-image");
+        previewContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
        
 
         // Form Validation
