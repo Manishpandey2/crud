@@ -1,7 +1,12 @@
 const express = require("express");
+const { db } = require("./model/index.js");
+const art = db.art;
 const app = express();
+require("./model/index.js");
 
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -15,6 +20,35 @@ app.get("/artists", (req, res) => {
 });
 app.get("/createart", (req, res) => {
   res.render("createart");
+});
+app.post("/createart", async (req, res) => {
+  console.log(req.body);
+  res.redirect("/gallery");
+
+  const {
+    title,
+    category,
+    medium,
+    dimensions,
+    year,
+    edition,
+    description,
+    price,
+    status,
+    shipping,
+    framed,
+    tags,
+    collection,
+    additionalInfo,
+  } = req.body;
+
+  await art.create({
+    title,
+    description,
+    price,
+    category,
+    status,
+  });
 });
 
 app.get("/register", (req, res) => {

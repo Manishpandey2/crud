@@ -666,7 +666,7 @@
     <!-- Add Artwork Form Section -->
     <section class="add-artwork-section">
         <div class="form-container">
-            <form id="addArtworkForm">
+            <form id="addArtworkForm" action="/createart" method="POST">
                 <!-- Artwork Details Section -->
                 <div class="form-section">
                     <h2 class="form-section-title">Artwork Details</h2>
@@ -841,88 +841,10 @@
         });
 
         // File Upload Preview
-        const fileUpload = document.getElementById('fileUpload');
-        const fileInput = document.getElementById('artworkImages');
-        const imagePreview = document.getElementById('imagePreview');
-        const previewContainer = document.getElementById('previewContainer');
-
-        fileUpload.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', handleFileSelect);
-
-        function handleFileSelect(event) {
-            const files = event.target.files;
-            
-            if (files.length > 0) {
-                imagePreview.classList.add('active');
-                
-                for (let i = 0; i < files.length; i++) {
-                    if (i >= 5) break; // Limit to 5 previews
-                    
-                    const file = files[i];
-                    
-                    if (!file.type.match('image.*')) continue;
-                    
-                    const reader = new FileReader();
-                    
-                    reader.onload = (function(theFile) {
-                        return function(e) {
-                            const previewItem = document.createElement('div');
-                            previewItem.className = 'preview-item';
-                            
-                            previewItem.innerHTML = [
-                                '<img class="preview-img" src="', e.target.result, '" alt="', theFile.name, '"/>',
-                                '<div class="preview-remove"><i class="fas fa-times"></i></div>'
-                            ].join('');
-                            
-                            previewContainer.appendChild(previewItem);
-                            
-                            const removeBtn = previewItem.querySelector('.preview-remove');
-                            removeBtn.addEventListener('click', function() {
-                                previewItem.remove();
-                                if (previewContainer.children.length === 0) {
-                                    imagePreview.classList.remove('active');
-                                }
-                            });
-                        };
-                    })(file);
-                    
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
+       
 
         // Form Validation
-        const addArtworkForm = document.getElementById('addArtworkForm');
         
-        addArtworkForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // Basic form validation
-            const requiredFields = document.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('error');
-                } else {
-                    field.classList.remove('error');
-                }
-            });
-            
-            if (isValid) {
-                // Here you would typically submit the form data to your backend
-                alert('Artwork submitted successfully!');
-                addArtworkForm.reset();
-                previewContainer.innerHTML = '';
-                imagePreview.classList.remove('active');
-            } else {
-                alert('Please fill in all required fields.');
-            }
-        });
     </script>
 </body>
 </html>
