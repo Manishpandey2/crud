@@ -16,8 +16,9 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.get("/gallery", (req, res) => {
-  res.render("gallery");
+app.get("/gallery", async (req, res) => {
+  const artworks = await art.findAll();
+  res.render("gallery", { art: artworks });
 });
 app.get("/artists", (req, res) => {
   res.render("artists");
@@ -26,8 +27,6 @@ app.get("/createart", (req, res) => {
   res.render("createart");
 });
 app.post("/createart", upload.single("artworkImages"), async (req, res) => {
-  console.log(req.body);
-  console.log(req.file);
   res.redirect("/gallery");
 
   const {
@@ -86,6 +85,8 @@ app.get("/art/update", (req, res) => {
 app.get("/art", (req, res) => {
   res.send("Read Art Page");
 });
+
+app.use(express.static("./storage/"));
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

@@ -706,6 +706,8 @@
                     <button class="category-btn" data-category="landscape">Landscapes</button>
                     <button class="category-btn" data-category="sculpture">Sculpture</button>
                     <button class="category-btn" data-category="photography">Photography</button>
+                    <button class="category-btn" data-category="digital art">Digital Art</button>
+                    <button class="category-btn" data-category="other">Other</button>
                 </div>
             </div>
             <div class="filter-right">
@@ -731,198 +733,39 @@
     <section class="gallery">
         <h2 class="gallery-title">All Artworks</h2>
         <div class="gallery-container" id="gallery-container">
-            <!-- Abstract Art 1 -->
-            <div class="art-card" data-category="abstract">
-                <img src="/api/placeholder/400/300" alt="Abstract Art" class="art-image">
+            <!--  Art 1 -->
+             <% if(art && art.length > 0) { %>
+            <% art.forEach(artwork => { %>
+            <div class="art-card" data-category="<%= artwork.category %>">
+                <img src="<%= artwork.image %>" alt="<%= artwork.title %>" class="art-image">
                 <div class="art-info">
-                    <span class="art-category">Abstract</span>
-                    <h3 class="art-title">Cosmic Resonance</h3>
-                    <p class="artist">By Sarah Johnson</p>
-                    <p class="art-description">A vibrant exploration of cosmic energies through bold colors and dynamic forms, creating a sense of infinite movement.</p>
+                    <span class="art-category"><%= artwork.category %></span>
+                    <h3 class="art-title"><%= artwork.title %></h3>
+                    <p class="artist">By <%= artwork.artist || "Unknown Artist" %></p>
+                    <p class="art-description"><%= artwork.description %></p>
                     <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 36" x 48"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Acrylic on Canvas</span>
+                        <% if(artwork.dimensions) { %>
+                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i><%= artwork.dimensions %></span></span>
+                        <% } %>
+                        <% if(artwork.medium) { %>
+                        <span class="art-meta-item"><i class="fas fa-palette"></i><%= artwork.medium %></span></span>
+                        <% } %>
                     </div>
                     <div class="art-footer">
-                        <span class="price">$2,850</span>
+                        <span class="price">$<%= artwork.price.toLocaleString() %></span>
                         <button class="view-btn">View Details</button>
                     </div>
                 </div>
             </div>
+            <% }) %>
+            <% } else { %>
+                <div class="no-artwork">No artworks found.</div>
+            <% } %>
             
-            <!-- Portrait Art 1 -->
-            <div class="art-card" data-category="portrait">
-                <img src="/api/placeholder/400/300" alt="Portrait Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Portrait</span>
-                    <h3 class="art-title">Silent Contemplation</h3>
-                    <p class="artist">By Elena Rodriguez</p>
-                    <p class="art-description">A powerful portrait capturing the depth of human emotion through expressive eyes and subtle facial nuances.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 24" x 30"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Canvas</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$1,750</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
             
-            <!-- Landscape Art 1 -->
-            <div class="art-card" data-category="landscape">
-                <img src="/api/placeholder/400/300" alt="Landscape Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Landscape</span>
-                    <h3 class="art-title">Autumn Whispers</h3>
-                    <p class="artist">By Michael Chen</p>
-                    <p class="art-description">A serene landscape capturing the golden hues of fall in the countryside, with gentle hills and calm waters.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 30" x 40"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Canvas</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$1,950</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
             
-            <!-- Sculpture Art 1 -->
-            <div class="art-card" data-category="sculpture">
-                <img src="/api/placeholder/400/300" alt="Sculpture Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Sculpture</span>
-                    <h3 class="art-title">Ethereal Balance</h3>
-                    <p class="artist">By David Wilson</p>
-                    <p class="art-description">A bronze sculpture exploring the delicate balance between strength and vulnerability through flowing forms.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 18" x 12" x 8"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Bronze</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$3,200</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
             
-            <!-- Photography Art 1 -->
-            <div class="art-card" data-category="photography">
-                <img src="/api/placeholder/400/300" alt="Photography Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Photography</span>
-                    <h3 class="art-title">Urban Reflections</h3>
-                    <p class="artist">By Sophia Chang</p>
-                    <p class="art-description">A striking black and white photograph capturing the symmetry and chaos of urban architecture through reflections.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 24" x 36"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Archival Print</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$950</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
             
-            <!-- Abstract Art 2 -->
-            <div class="art-card" data-category="abstract">
-                <img src="/api/placeholder/400/300" alt="Abstract Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Abstract</span>
-                    <h3 class="art-title">Harmonic Discord</h3>
-                    <p class="artist">By James Moretti</p>
-                    <p class="art-description">An exploration of contrasting elements finding harmony through bold brushstrokes and a vibrant color palette.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 40" x 50"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Mixed Media</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$2,450</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Portrait Art 2 -->
-            <div class="art-card" data-category="portrait">
-                <img src="/api/placeholder/400/300" alt="Portrait Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Portrait</span>
-                    <h3 class="art-title">Timeless Wisdom</h3>
-                    <p class="artist">By Alex Torres</p>
-                    <p class="art-description">A compelling portrait of an elderly person, each wrinkle telling stories of a life fully lived, rendered in detailed brushwork.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 20" x 24"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Panel</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$1,850</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Landscape Art 2 -->
-            <div class="art-card" data-category="landscape">
-                <img src="/api/placeholder/400/300" alt="Landscape Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Landscape</span>
-                    <h3 class="art-title">Mountain Majesty</h3>
-                    <p class="artist">By Laura Kim</p>
-                    <p class="art-description">A breathtaking mountain landscape at dawn, with layers of mist creating an ethereal atmosphere between the peaks.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item">
-                            <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 36" x 48"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Oil on Canvas</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$2,150</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Sculpture Art 2 -->
-            <div class="art-card" data-category="sculpture">
-                <img src="/api/placeholder/400/300" alt="Sculpture Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Sculpture</span>
-                    <h3 class="art-title">Fluid Motion</h3>
-                    <p class="artist">By Thomas Wright</p>
-                    <p class="art-description">A marble sculpture that captures the essence of flowing water, frozen in a moment of perpetual movement.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 22" x 14" x 10"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Marble</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$4,500</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Photography Art 2 -->
-            <div class="art-card" data-category="photography">
-                <img src="/api/placeholder/400/300" alt="Photography Art" class="art-image">
-                <div class="art-info">
-                    <span class="art-category">Photography</span>
-                    <h3 class="art-title">Solitude in Nature</h3>
-                    <p class="artist">By Nina Patel</p>
-                    <p class="art-description">A serene nature photograph capturing a solitary tree in a vast landscape, symbolizing resilience and quiet strength.</p>
-                    <div class="art-meta">
-                        <span class="art-meta-item"><i class="fas fa-ruler-combined"></i> 30" x 40"</span>
-                        <span class="art-meta-item"><i class="fas fa-palette"></i> Archival Print</span>
-                    </div>
-                    <div class="art-footer">
-                        <span class="price">$850</span>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Pagination -->
         <div class="pagination">
             <ul class="pagination-list">
