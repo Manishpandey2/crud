@@ -44,6 +44,7 @@ app.post("/createart", upload.single("artworkImages"), async (req, res) => {
     tags,
     collection,
     additionalInfo,
+    artist,
   } = req.body;
 
   await art.create({
@@ -53,6 +54,7 @@ app.post("/createart", upload.single("artworkImages"), async (req, res) => {
     category,
     status,
     image: req.file.filename,
+    artist,
   });
 });
 
@@ -62,8 +64,16 @@ app.get("/register", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login");
 });
-app.get("/admin", (req, res) => {
-  res.render("admin");
+app.get("/admin", async (req, res) => {
+  const artworks = await art.findAll();
+
+  res.render("admin", { art: artworks });
+});
+
+app.get("/delete/:id", async (req, res) => {
+  const id = req.params.id;
+  await art.destroy({ where: { id: id } });
+  res.redirect("/admin");
 });
 
 app.get("/singleart/:id", async (req, res) => {
@@ -73,19 +83,6 @@ app.get("/singleart/:id", async (req, res) => {
 });
 app.get("/contact", (req, res) => {
   res.render("contact");
-});
-
-app.get("/art/create", (req, res) => {
-  res.send("Create Art Page");
-});
-app.get("/art/delete", (req, res) => {
-  res.send("Delete Art Page");
-});
-app.get("/art/update", (req, res) => {
-  res.send("Update Art Page");
-});
-app.get("/art", (req, res) => {
-  res.send("Read Art Page");
 });
 
 app.use(express.static("./storage/"));

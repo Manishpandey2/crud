@@ -530,6 +530,21 @@
             color: var(--info);
         }
         
+        .status-reserved {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+        
+        .status-not-for-sale {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+        
+        .status-for-sale {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+        
         .action-btn {
             background: none;
             border: none;
@@ -942,6 +957,7 @@
         
         <!-- Recent Items -->
         <div class="recent-grid">
+            
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Recent Artworks</h3>
@@ -959,75 +975,26 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <% art.forEach((artwork) => { %>
                                 <td>
                                     <div class="artwork-info">
-                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
+                                        <img src="<%= artwork.image %>" alt="Artwork" class="artwork-img">
                                         <div>
-                                            <div class="artwork-name">Celestial Harmony</div>
-                                            <div class="artwork-artist">by Sarah Johnson</div>
+                                            <div class="artwork-name"><%= artwork.title %></div>
+                                            <div class="artwork-artist">by <%= artwork.artist || "Unknown Artist" %></div> </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>$1,250</td>
-                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>$<%= artwork.price %></td>
+                                <td><span class="status-badge status-<%= artwork.status %>"><%= artwork.status %></span></td>
                                 <td>
                                     <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                    <button class="action-btn delete-btn" onclick="window.location.href='/delete/<%= artwork.id %>'"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="artwork-info">
-                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
-                                        <div>
-                                            <div class="artwork-name">Autumn Whispers</div>
-                                            <div class="artwork-artist">by Michael Chen</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>$890</td>
-                                <td><span class="status-badge status-sold">Sold</span></td>
-                                <td>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="artwork-info">
-                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
-                                        <div>
-                                            <div class="artwork-name">Urban Dreams</div>
-                                            <div class="artwork-artist">by Elena Rodriguez</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>$1,450</td>
-                                <td><span class="status-badge status-pending">Pending</span></td>
-                                <td>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="artwork-info">
-                                        <img src="/api/placeholder/100/100" alt="Artwork" class="artwork-img">
-                                        <div>
-                                            <div class="artwork-name">Midnight Serenade</div>
-                                            <div class="artwork-artist">by David Parker</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>$2,100</td>
-                                <td><span class="status-badge status-active">Active</span></td>
-                                <td>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
+                            <% }) %>
+
+                            
                         </tbody>
                     </table>
                 </div>
