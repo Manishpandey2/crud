@@ -748,27 +748,26 @@
     <!-- Artwork Detail Section -->
     <div class="artwork-container">
         <div class="artwork-gallery">
-            <img src="/api/placeholder/600/600" alt="Celestial Harmony" class="main-image">
+            <img src="http://localhost:3000/<%= art[0].image %>"  alt="Celestial Harmony" class="main-image">
             <div class="artwork-thumbnails">
-                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 1" class="thumbnail active">
-                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 2" class="thumbnail">
-                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 3" class="thumbnail">
-                <img src="/api/placeholder/80/80" alt="Celestial Harmony thumbnail 4" class="thumbnail">
+                <img src="http://localhost:3000/<%= art[0].image %>" alt="Celestial Harmony thumbnail 1" class="thumbnail active">
+                <img src="http://localhost:3000/<%= art[0].image %>" alt="Celestial Harmony thumbnail 2" class="thumbnail">
+                <img src="http://localhost:3000/<%= art[0].image %>" alt="Celestial Harmony thumbnail 3" class="thumbnail">
+                <img src="http://localhost:3000/<%= art[0].image %>" alt="Celestial Harmony thumbnail 4" class="thumbnail">
             </div>
         </div>
         <div class="artwork-info">
-            <h1>Celestial Harmony</h1>
+            <h1><%= art[0].title %></h1>
             <div class="artwork-meta">
                 <div class="artist-info">
                     <img src="/api/placeholder/50/50" alt="Sarah Johnson" class="artist-avatar">
-                    <span class="artist-name">By Sarah Johnson</span>
+                    <span class="artist-name"><%= art[0].artist || "Unknown Artist" %></span>
                 </div>
-                <span class="artwork-category">Abstract</span>
+                <span class="artwork-category"><%= art[0].category %></span>
             </div>
-            <div class="artwork-price">$1,250</div>
+            <div class="artwork-price">$<%= art[0].price %></div>
             <div class="artwork-description">
-                <p>A vibrant abstract masterpiece exploring the relationship between color and emotion. This piece captivates viewers with its dynamic use of blues and purples that evoke a sense of cosmic movement. The composition balances chaotic energy with harmonious flow, creating a visual meditation on the nature of the universe.</p>
-                <p>Created using a combination of acrylic and oil paints on premium canvas, this work features multiple layers that reveal new details with each viewing. The artist's signature brushwork and innovative color blending techniques make this a standout piece in any contemporary art collection.</p>
+                <p><%= art[0].description %></p>
             </div>
             <div class="artwork-details">
                 <div class="detail-group">

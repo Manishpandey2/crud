@@ -66,8 +66,10 @@ app.get("/admin", (req, res) => {
   res.render("admin");
 });
 
-app.get("/singleart", (req, res) => {
-  res.render("singleart");
+app.get("/singleart/:id", async (req, res) => {
+  const id = req.params.id;
+  const artwork = await art.findAll({ where: { id: id } });
+  res.render("singleart", { art: artwork });
 });
 app.get("/contact", (req, res) => {
   res.render("contact");
