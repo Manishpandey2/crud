@@ -110,7 +110,12 @@ app.post("/editart/:id", upload.single("artworkImages"), async (req, res) => {
     collection,
     additionalInfo,
     artist,
+    existingImage,
   } = req.body;
+  let image = existingImage; // Default to existing image
+  if (req.file) {
+    image = req.file.filename; // Use new image if provided
+  }
 
   await art.update(
     {
@@ -119,7 +124,7 @@ app.post("/editart/:id", upload.single("artworkImages"), async (req, res) => {
       price,
       category,
       status,
-      image: req.file.filename,
+      image,
       artist,
     },
     { where: { id: id } }
