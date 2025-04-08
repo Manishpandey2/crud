@@ -988,7 +988,7 @@
                                 <td>$<%= artwork.price %></td>
                                 <td><span class="status-badge status-<%= artwork.status %>"><%= artwork.status %></span></td>
                                 <td>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn edit-btn" onclick="window.location.href='/editart/<%= artwork.id %>'"><i class="fas fa-edit"></i></button>
                                     <button class="action-btn delete-btn" onclick="window.location.href='/delete/<%= artwork.id %>'"><i class="fas fa-trash"></i></button>
                                 </td>
                             </tr>

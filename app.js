@@ -85,6 +85,47 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
+// edit artwork route
+app.get("/editart/:id", async (req, res) => {
+  const id = req.params.id;
+  const artwork = await art.findAll({ where: { id: id } });
+  console.log(artwork);
+  res.render("editart", { art: artwork });
+});
+app.post("/editart/:id", upload.single("artworkImages"), async (req, res) => {
+  const id = req.params.id;
+  const {
+    title,
+    category,
+    medium,
+    dimensions,
+    year,
+    edition,
+    description,
+    price,
+    status,
+    shipping,
+    framed,
+    tags,
+    collection,
+    additionalInfo,
+    artist,
+  } = req.body;
+
+  await art.update(
+    {
+      title,
+      description,
+      price,
+      category,
+      status,
+      image: req.file.filename,
+      artist,
+    },
+    { where: { id: id } }
+  );
+  res.redirect("/admin");
+});
 app.use(express.static("./storage/"));
 
 app.listen(3000, () => {
