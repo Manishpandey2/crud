@@ -1,13 +1,14 @@
 module.exports = {
-  host: "localhost",
-  user: "root",
-  password: "",
-  DB: "artgallery",
+  host: process.env.DBHOST,
+  user: process.env.DBUSER,
+  password: process.env.DBPASSWORD,
+  database: process.env.DBNAME,
+  port: process.env.DBPORT,
   dialect: "mysql",
   pool: {
     max: 5,
     min: 0,
-    acquire: 30000,
-    idle: 10000,
+    acquire: 3000,
+    idle: 1000,
   },
 };

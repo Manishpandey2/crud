@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const { db } = require("./model/index.js");
 const art = db.art;
@@ -127,7 +128,7 @@ app.post("/editart/:id", upload.single("artworkImages"), async (req, res) => {
       image,
       artist,
     },
-    { where: { id: id } }
+    { where: { id: id } },
   );
   res.redirect("/admin");
 });
