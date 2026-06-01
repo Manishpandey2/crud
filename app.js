@@ -14,6 +14,7 @@ const artRoute = require("./routes/artRoute.js");
 const authRoute = require("./routes/authRoutes.js");
 const contactRoute = require("./routes/contactRoute.js");
 const homeRoute = require("./routes/homeRoute.js");
+const { db } = require("./model/index.js");
 
 app.use("", adminRoute);
 app.use("", artistRoute);

@@ -1,3 +1,6 @@
+const { db } = require("../model");
+
+const { art } = db;
 exports.gallery = async (req, res) => {
   const artworks = await art.findAll();
   res.render("gallery", { art: artworks });

@@ -20,10 +20,10 @@ router
   .route("/createart")
   .get(getCreateArt)
   .post(upload.single("artworkImages"), postCreateArt);
-router.route("/deleteart").get(deleteArt);
-router.route("/singleart").get(singleArt);
+router.route("/delete/:id").get(deleteArt);
+router.route("/singleart/:id").get(singleArt);
 router
-  .route("/editart")
+  .route("/editart/:id")
   .get(getEditArt)
   .post(upload.single("artworkImages"), postEditArt);
 
